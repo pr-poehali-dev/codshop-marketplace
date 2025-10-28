@@ -6,6 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
 
 interface Product {
@@ -32,69 +36,135 @@ interface Review {
 const products: Product[] = [
   {
     id: 1,
-    name: 'Valorant аккаунт | Immortal 3 | 15+ скинов',
-    price: 12500,
-    category: 'Аккаунты',
-    seller: 'ProGamer_Store',
+    name: 'iPhone 15 Pro 256GB Titanium',
+    price: 89990,
+    category: 'Электроника',
+    seller: 'TechStore',
     sellerRating: 4.9,
     rating: 4.8,
-    reviews: 127,
-    image: '🎮'
+    reviews: 347,
+    image: '📱'
   },
   {
     id: 2,
-    name: 'Discord Nitro | 1 месяц | Гарантия',
-    price: 399,
-    category: 'Подписки',
-    seller: 'DigitalKeys',
-    sellerRating: 5.0,
-    rating: 5.0,
-    reviews: 342,
-    image: '💬'
+    name: 'Nike Air Max 2024 | Размер 42',
+    price: 12990,
+    category: 'Одежда и обувь',
+    seller: 'SneakerHub',
+    sellerRating: 4.8,
+    rating: 4.9,
+    reviews: 215,
+    image: '👟'
   },
   {
     id: 3,
-    name: 'Steam аккаунт | CS2 Prime | 2000 часов',
-    price: 3500,
-    category: 'Аккаунты',
-    seller: 'GamingHub',
-    sellerRating: 4.7,
-    rating: 4.6,
-    reviews: 89,
-    image: '🎯'
+    name: 'MacBook Pro 14" M3 | 16GB RAM',
+    price: 189990,
+    category: 'Электроника',
+    seller: 'AppleShop',
+    sellerRating: 5.0,
+    rating: 5.0,
+    reviews: 428,
+    image: '💻'
   },
   {
     id: 4,
-    name: 'Genshin Impact | AR 58 | Все 5★ персонажи',
-    price: 8900,
-    category: 'Аккаунты',
-    seller: 'AnimeGames',
-    sellerRating: 4.8,
-    rating: 4.9,
-    reviews: 156,
-    image: '⚔️'
+    name: 'Cuisinart Мультиварка 6L',
+    price: 8990,
+    category: 'Дом и быт',
+    seller: 'HomeMarket',
+    sellerRating: 4.7,
+    rating: 4.6,
+    reviews: 189,
+    image: '🍳'
   },
   {
     id: 5,
-    name: 'Spotify Premium | 3 месяца | Личный',
-    price: 599,
-    category: 'Подписки',
-    seller: 'MediaShop',
+    name: 'Sony PlayStation 5 + 2 игры',
+    price: 54990,
+    category: 'Игры',
+    seller: 'GameWorld',
     sellerRating: 4.9,
     rating: 4.8,
-    reviews: 215,
-    image: '🎵'
+    reviews: 532,
+    image: '🎮'
   },
   {
     id: 6,
-    name: 'League of Legends | Diamond | 150+ чемпионов',
-    price: 5500,
-    category: 'Аккаунты',
-    seller: 'ProGamer_Store',
+    name: 'Samsung 55" QLED 4K Smart TV',
+    price: 67990,
+    category: 'Электроника',
+    seller: 'TechStore',
     sellerRating: 4.9,
     rating: 4.7,
-    reviews: 98,
-    image: '🏆'
+    reviews: 298,
+    image: '📺'
+  },
+  {
+    id: 7,
+    name: 'Диван-кровать «Скандинавия» серый',
+    price: 35990,
+    category: 'Мебель',
+    seller: 'FurnitureMax',
+    sellerRating: 4.6,
+    rating: 4.5,
+    reviews: 124,
+    image: '🛋️'
+  },
+  {
+    id: 8,
+    name: 'Набор посуды Tefal 12 предметов',
+    price: 6990,
+    category: 'Дом и быт',
+    seller: 'HomeMarket',
+    sellerRating: 4.7,
+    rating: 4.8,
+    reviews: 267,
+    image: '🍽️'
+  },
+  {
+    id: 9,
+    name: 'Canon EOS R6 Mark II Body',
+    price: 179990,
+    category: 'Фототехника',
+    seller: 'PhotoPro',
+    sellerRating: 5.0,
+    rating: 5.0,
+    reviews: 156,
+    image: '📷'
+  },
+  {
+    id: 10,
+    name: 'Xiaomi Robot Vacuum S10+',
+    price: 24990,
+    category: 'Дом и быт',
+    seller: 'SmartHome',
+    sellerRating: 4.8,
+    rating: 4.7,
+    reviews: 389,
+    image: '🤖'
+  },
+  {
+    id: 11,
+    name: 'Кожаная куртка Zara | M',
+    price: 15990,
+    category: 'Одежда и обувь',
+    seller: 'FashionStore',
+    sellerRating: 4.6,
+    rating: 4.5,
+    reviews: 143,
+    image: '🧥'
+  },
+  {
+    id: 12,
+    name: 'Настольная игра «Каркассон»',
+    price: 2490,
+    category: 'Игры',
+    seller: 'BoardGames',
+    sellerRating: 4.9,
+    rating: 4.9,
+    reviews: 567,
+    image: '🎲'
   }
 ];
 
@@ -104,7 +174,7 @@ const reviews: Review[] = [
     author: 'Александр М.',
     rating: 5,
     date: '15 октября 2024',
-    text: 'Отличный аккаунт! Всё как в описании, продавец быстро ответил и помог с входом. Рекомендую!',
+    text: 'Купил MacBook - отличное состояние, всё работает идеально. Доставка быстрая, продавец отзывчивый!',
     avatar: 'АМ'
   },
   {
@@ -112,7 +182,7 @@ const reviews: Review[] = [
     author: 'Мария К.',
     rating: 5,
     date: '12 октября 2024',
-    text: 'Очень довольна покупкой! Всё пришло моментально, качество на высоте. Буду покупать ещё.',
+    text: 'Заказала кроссовки Nike - пришли быстро, качество превосходное. Очень довольна покупкой!',
     avatar: 'МК'
   },
   {
@@ -120,7 +190,7 @@ const reviews: Review[] = [
     author: 'Дмитрий В.',
     rating: 4,
     date: '8 октября 2024',
-    text: 'Хороший товар, но немного долго ждал ответа от продавца. В остальном всё отлично!',
+    text: 'PlayStation 5 пришла в отличной упаковке. Немного задержали доставку, но всё решилось хорошо.',
     avatar: 'ДВ'
   }
 ];
@@ -144,6 +214,13 @@ export default function Index() {
   const [activeTab, setActiveTab] = useState('home');
   const [cartItems, setCartItems] = useState<number[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showPayment, setShowPayment] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardExpiry, setCardExpiry] = useState('');
+  const [cardCvv, setCardCvv] = useState('');
+  const [cardHolder, setCardHolder] = useState('');
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   const addToCart = (productId: number) => {
     if (!cartItems.includes(productId)) {
@@ -218,7 +295,7 @@ export default function Index() {
                           <span>Итого:</span>
                           <span className="text-primary">{totalPrice} ₽</span>
                         </div>
-                        <Button className="w-full" size="lg">
+                        <Button className="w-full" size="lg" onClick={() => setShowPayment(true)}>
                           Перейти к оплате
                         </Button>
                       </div>
@@ -239,11 +316,11 @@ export default function Index() {
         {activeTab === 'home' && (
           <div className="space-y-8">
             <section className="rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-background p-12 text-center">
-              <h2 className="text-4xl font-bold mb-4">Маркетплейс игровых аккаунтов и цифровых товаров</h2>
+              <h2 className="text-4xl font-bold mb-4">Маркетплейс разнообразных товаров</h2>
               <p className="text-xl text-muted-foreground mb-6">
-                Покупайте и продавайте аккаунты, подписки и внутриигровые предметы безопасно
+                Электроника, одежда, мебель, техника и многое другое в одном месте
               </p>
-              <div className="flex gap-4 justify-center">
+              <div className="flex gap-4 justify-center flex-wrap">
                 <Button size="lg" onClick={() => setActiveTab('catalog')}>
                   <Icon name="Search" size={20} className="mr-2" />
                   Смотреть каталог
@@ -345,8 +422,9 @@ export default function Index() {
               <Tabs defaultValue="all">
                 <TabsList>
                   <TabsTrigger value="all">Все</TabsTrigger>
-                  <TabsTrigger value="accounts">Аккаунты</TabsTrigger>
-                  <TabsTrigger value="subscriptions">Подписки</TabsTrigger>
+                  <TabsTrigger value="electronics">Электроника</TabsTrigger>
+                  <TabsTrigger value="fashion">Одежда</TabsTrigger>
+                  <TabsTrigger value="home">Дом и быт</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
@@ -610,13 +688,223 @@ export default function Index() {
         )}
       </main>
 
+      <Dialog open={showPayment} onOpenChange={setShowPayment}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">Оформление заказа</DialogTitle>
+            <DialogDescription>
+              Заполните данные для оплаты вашего заказа
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6">
+            <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+              <h3 className="font-semibold">Состав заказа:</h3>
+              <div className="space-y-2">
+                {cartProducts.map(product => (
+                  <div key={product.id} className="flex justify-between text-sm">
+                    <span className="truncate mr-4">{product.name}</span>
+                    <span className="font-medium whitespace-nowrap">{product.price} ₽</span>
+                  </div>
+                ))}
+              </div>
+              <Separator />
+              <div className="flex justify-between font-bold text-lg">
+                <span>Итого:</span>
+                <span className="text-primary">{totalPrice} ₽</span>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="font-semibold text-lg">Способ оплаты</h3>
+              <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
+                <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-accent transition-colors cursor-pointer">
+                  <RadioGroupItem value="card" id="card" />
+                  <Label htmlFor="card" className="flex items-center gap-3 cursor-pointer flex-1">
+                    <Icon name="CreditCard" size={24} className="text-primary" />
+                    <div>
+                      <p className="font-medium">Банковская карта</p>
+                      <p className="text-sm text-muted-foreground">Visa, MasterCard, Mir</p>
+                    </div>
+                  </Label>
+                </div>
+
+                <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-accent transition-colors cursor-pointer">
+                  <RadioGroupItem value="sbp" id="sbp" />
+                  <Label htmlFor="sbp" className="flex items-center gap-3 cursor-pointer flex-1">
+                    <Icon name="Smartphone" size={24} className="text-primary" />
+                    <div>
+                      <p className="font-medium">СБП (Система быстрых платежей)</p>
+                      <p className="text-sm text-muted-foreground">Оплата через банк по номеру телефона</p>
+                    </div>
+                  </Label>
+                </div>
+
+                <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-accent transition-colors cursor-pointer">
+                  <RadioGroupItem value="yoomoney" id="yoomoney" />
+                  <Label htmlFor="yoomoney" className="flex items-center gap-3 cursor-pointer flex-1">
+                    <Icon name="Wallet" size={24} className="text-primary" />
+                    <div>
+                      <p className="font-medium">ЮMoney</p>
+                      <p className="text-sm text-muted-foreground">Электронный кошелёк</p>
+                    </div>
+                  </Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            {paymentMethod === 'card' && (
+              <div className="space-y-4 border-t pt-4">
+                <h3 className="font-semibold">Данные карты</h3>
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="cardNumber">Номер карты</Label>
+                    <Input
+                      id="cardNumber"
+                      placeholder="1234 5678 9012 3456"
+                      value={cardNumber}
+                      onChange={(e) => setCardNumber(e.target.value)}
+                      maxLength={19}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label htmlFor="cardExpiry">Срок действия</Label>
+                      <Input
+                        id="cardExpiry"
+                        placeholder="MM/YY"
+                        value={cardExpiry}
+                        onChange={(e) => setCardExpiry(e.target.value)}
+                        maxLength={5}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="cardCvv">CVV</Label>
+                      <Input
+                        id="cardCvv"
+                        placeholder="123"
+                        type="password"
+                        value={cardCvv}
+                        onChange={(e) => setCardCvv(e.target.value)}
+                        maxLength={3}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="cardHolder">Имя держателя карты</Label>
+                    <Input
+                      id="cardHolder"
+                      placeholder="IVAN IVANOV"
+                      value={cardHolder}
+                      onChange={(e) => setCardHolder(e.target.value.toUpperCase())}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {paymentMethod === 'sbp' && (
+              <div className="space-y-4 border-t pt-4">
+                <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <Icon name="Info" size={20} className="text-blue-600 dark:text-blue-400 mt-0.5" />
+                    <div className="text-sm">
+                      <p className="font-medium text-blue-900 dark:text-blue-100 mb-1">Инструкция по оплате:</p>
+                      <ol className="list-decimal list-inside space-y-1 text-blue-800 dark:text-blue-200">
+                        <li>Откройте приложение вашего банка</li>
+                        <li>Выберите &quot;Оплата по QR-коду&quot; или &quot;СБП&quot;</li>
+                        <li>Отсканируйте QR-код на следующем экране</li>
+                        <li>Подтвердите оплату в приложении банка</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {paymentMethod === 'yoomoney' && (
+              <div className="space-y-4 border-t pt-4">
+                <div className="bg-purple-50 dark:bg-purple-950 border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <Icon name="Info" size={20} className="text-purple-600 dark:text-purple-400 mt-0.5" />
+                    <div className="text-sm text-purple-900 dark:text-purple-100">
+                      <p className="font-medium mb-1">После нажатия кнопки &quot;Оплатить&quot;:</p>
+                      <p>Вы будете перенаправлены на страницу ЮMoney для завершения платежа</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter className="flex-col sm:flex-row gap-3">
+            <Button variant="outline" onClick={() => setShowPayment(false)} className="w-full sm:w-auto">
+              Отмена
+            </Button>
+            <Button 
+              onClick={() => {
+                setOrderSuccess(true);
+                setShowPayment(false);
+                setCartItems([]);
+              }}
+              className="w-full sm:w-auto"
+              size="lg"
+            >
+              <Icon name="Lock" size={18} className="mr-2" />
+              Оплатить {totalPrice} ₽
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={orderSuccess} onOpenChange={setOrderSuccess}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <div className="flex justify-center mb-4">
+              <div className="h-16 w-16 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                <Icon name="Check" size={32} className="text-green-600 dark:text-green-400" />
+              </div>
+            </div>
+            <DialogTitle className="text-center text-2xl">Заказ успешно оплачен!</DialogTitle>
+            <DialogDescription className="text-center">
+              Ваш заказ принят в обработку. Информация о покупке отправлена на вашу почту.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Номер заказа:</span>
+                <span className="font-mono font-medium">#ORD-{Math.floor(Math.random() * 100000)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Дата:</span>
+                <span className="font-medium">{new Date().toLocaleDateString('ru-RU')}</span>
+              </div>
+              <Separator />
+              <div className="flex justify-between font-bold">
+                <span>Сумма:</span>
+                <span className="text-primary">{totalPrice} ₽</span>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={() => {
+              setOrderSuccess(false);
+              setActiveTab('profile');
+            }} className="w-full">
+              Перейти в профиль
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <footer className="border-t mt-16">
         <div className="container py-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <h3 className="font-bold text-lg mb-4">CodShop</h3>
               <p className="text-sm text-muted-foreground">
-                Безопасный маркетплейс игровых аккаунтов и цифровых товаров
+                Безопасный маркетплейс разнообразных товаров
               </p>
             </div>
             <div>
