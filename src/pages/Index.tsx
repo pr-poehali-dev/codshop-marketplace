@@ -10,6 +10,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 
 interface Product {
@@ -221,6 +223,17 @@ export default function Index() {
   const [cardCvv, setCardCvv] = useState('');
   const [cardHolder, setCardHolder] = useState('');
   const [orderSuccess, setOrderSuccess] = useState(false);
+  const [isSeller, setIsSeller] = useState(false);
+  const [showSellerForm, setShowSellerForm] = useState(false);
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [userProducts, setUserProducts] = useState<Product[]>([]);
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    price: '',
+    category: 'Электроника',
+    description: '',
+    image: '📦'
+  });
 
   const addToCart = (productId: number) => {
     if (!cartItems.includes(productId)) {
@@ -547,7 +560,7 @@ export default function Index() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button size="lg" className="w-full">
+                <Button size="lg" className="w-full" onClick={() => setShowSellerForm(true)}>
                   <Icon name="UserPlus" size={20} className="mr-2" />
                   Зарегистрироваться как продавец
                 </Button>
@@ -655,13 +668,49 @@ export default function Index() {
                     <CardTitle>Мои товары</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-center text-muted-foreground py-8">
-                      Вы ещё не добавили товары на продажу
-                    </p>
-                    <Button className="w-full mt-4">
-                      <Icon name="Plus" size={18} className="mr-2" />
-                      Добавить товар
-                    </Button>
+                    {!isSeller ? (
+                      <div className="text-center py-8">
+                        <p className="text-muted-foreground mb-4">
+                          Вы ещё не зарегистрированы как продавец
+                        </p>
+                        <Button onClick={() => setShowSellerForm(true)}>
+                          <Icon name="Store" size={18} className="mr-2" />
+                          Стать продавцом
+                        </Button>
+                      </div>
+                    ) : userProducts.length === 0 ? (
+                      <div className="text-center py-8">
+                        <p className="text-muted-foreground mb-4">
+                          Вы ещё не добавили товары на продажу
+                        </p>
+                        <Button className="w-full" onClick={() => setShowAddProduct(true)}>
+                          <Icon name="Plus" size={18} className="mr-2" />
+                          Добавить товар
+                        </Button>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="space-y-3">
+                          {userProducts.map(product => (
+                            <div key={product.id} className="flex items-center gap-3 p-3 border rounded-lg">
+                              <div className="text-3xl">{product.image}</div>
+                              <div className="flex-1 min-w-0">
+                                <p className="font-medium truncate">{product.name}</p>
+                                <p className="text-sm text-muted-foreground">{product.category}</p>
+                                <p className="text-sm font-bold text-primary">{product.price} ₽</p>
+                              </div>
+                              <Button variant="ghost" size="icon">
+                                <Icon name="Pencil" size={16} />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                        <Button className="w-full mt-4" onClick={() => setShowAddProduct(true)}>
+                          <Icon name="Plus" size={18} className="mr-2" />
+                          Добавить товар
+                        </Button>
+                      </>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -886,6 +935,15 @@ export default function Index() {
                 <span className="text-primary">{totalPrice} ₽</span>
               </div>
             </div>
+            <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <Icon name="MapPin" size={20} className="text-blue-600 dark:text-blue-400 mt-0.5" />
+                <div className="text-sm">
+                  <p className="font-medium text-blue-900 dark:text-blue-100 mb-1">Пункт выдачи заказов:</p>
+                  <p className="text-blue-800 dark:text-blue-200">Новоалтайск, ул. Деповская 36</p>
+                </div>
+              </div>
+            </div>
           </div>
           <DialogFooter>
             <Button onClick={() => {
@@ -893,6 +951,175 @@ export default function Index() {
               setActiveTab('profile');
             }} className="w-full">
               Перейти в профиль
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showSellerForm} onOpenChange={setShowSellerForm}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">Регистрация продавца</DialogTitle>
+            <DialogDescription>
+              Заполните данные для начала продаж на маркетплейсе
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <Label htmlFor="shopName">Название магазина</Label>
+              <Input id="shopName" placeholder="Мой магазин" />
+            </div>
+            <div>
+              <Label htmlFor="sellerEmail">Email</Label>
+              <Input id="sellerEmail" type="email" placeholder="shop@example.com" />
+            </div>
+            <div>
+              <Label htmlFor="sellerPhone">Телефон</Label>
+              <Input id="sellerPhone" placeholder="+7 (___) ___-__-__" />
+            </div>
+            <div>
+              <Label htmlFor="sellerDescription">Описание магазина</Label>
+              <Textarea 
+                id="sellerDescription" 
+                placeholder="Расскажите о вашем магазине..."
+                rows={3}
+              />
+            </div>
+            <div className="bg-muted/50 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <Icon name="Info" size={20} className="text-primary mt-0.5" />
+                <div className="text-sm">
+                  <p className="font-medium mb-1">Условия для продавцов:</p>
+                  <ul className="space-y-1 text-muted-foreground">
+                    <li>• Комиссия 5% с каждой продажи</li>
+                    <li>• Выплаты два раза в месяц</li>
+                    <li>• Поддержка 24/7</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowSellerForm(false)}>
+              Отмена
+            </Button>
+            <Button onClick={() => {
+              setIsSeller(true);
+              setShowSellerForm(false);
+              setActiveTab('profile');
+            }}>
+              <Icon name="Check" size={18} className="mr-2" />
+              Зарегистрироваться
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showAddProduct} onOpenChange={setShowAddProduct}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">Добавить товар</DialogTitle>
+            <DialogDescription>
+              Заполните информацию о вашем товаре
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <Label htmlFor="productName">Название товара *</Label>
+              <Input 
+                id="productName" 
+                placeholder="iPhone 15 Pro 256GB"
+                value={newProduct.name}
+                onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+              />
+            </div>
+            <div>
+              <Label htmlFor="productCategory">Категория *</Label>
+              <Select 
+                value={newProduct.category} 
+                onValueChange={(value) => setNewProduct({...newProduct, category: value})}
+              >
+                <SelectTrigger id="productCategory">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Электроника">Электроника</SelectItem>
+                  <SelectItem value="Одежда и обувь">Одежда и обувь</SelectItem>
+                  <SelectItem value="Дом и быт">Дом и быт</SelectItem>
+                  <SelectItem value="Мебель">Мебель</SelectItem>
+                  <SelectItem value="Игры">Игры</SelectItem>
+                  <SelectItem value="Фототехника">Фототехника</SelectItem>
+                  <SelectItem value="Другое">Другое</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="productPrice">Цена (₽) *</Label>
+              <Input 
+                id="productPrice" 
+                type="number"
+                placeholder="10000"
+                value={newProduct.price}
+                onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
+              />
+            </div>
+            <div>
+              <Label htmlFor="productDescription">Описание товара *</Label>
+              <Textarea 
+                id="productDescription" 
+                placeholder="Подробное описание товара, его характеристики и состояние..."
+                rows={4}
+                value={newProduct.description}
+                onChange={(e) => setNewProduct({...newProduct, description: e.target.value})}
+              />
+            </div>
+            <div>
+              <Label htmlFor="productEmoji">Иконка товара (эмодзи)</Label>
+              <Input 
+                id="productEmoji" 
+                placeholder="📱"
+                maxLength={2}
+                value={newProduct.image}
+                onChange={(e) => setNewProduct({...newProduct, image: e.target.value})}
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Выберите подходящий эмодзи для вашего товара
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowAddProduct(false)}>
+              Отмена
+            </Button>
+            <Button 
+              onClick={() => {
+                if (newProduct.name && newProduct.price && newProduct.description) {
+                  const product: Product = {
+                    id: Date.now(),
+                    name: newProduct.name,
+                    price: parseInt(newProduct.price),
+                    category: newProduct.category,
+                    seller: 'Мой магазин',
+                    sellerRating: 5.0,
+                    rating: 5.0,
+                    reviews: 0,
+                    image: newProduct.image || '📦'
+                  };
+                  setUserProducts([...userProducts, product]);
+                  setNewProduct({
+                    name: '',
+                    price: '',
+                    category: 'Электроника',
+                    description: '',
+                    image: '📦'
+                  });
+                  setShowAddProduct(false);
+                }
+              }}
+              disabled={!newProduct.name || !newProduct.price || !newProduct.description}
+            >
+              <Icon name="Plus" size={18} className="mr-2" />
+              Добавить товар
             </Button>
           </DialogFooter>
         </DialogContent>
